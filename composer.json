@@ -1,0 +1,21 @@
+{
+  "name": "swircod/framework",
+  "description": "Simple PHP framework",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "swircod",
+      "email": "dimgit01@gmail.com"
+    }
+  ],
+  "require": {
+    
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Core\\": "core/"
+    }
+  }
+}

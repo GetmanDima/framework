@@ -6,4 +6,13 @@ require_once dirname(__DIR__) . '/config/initializer.php';
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 
-echo 'This is simple PHP framework!';
+use Core\Router\Router;
+use Core\Request;
+
+Request::init();
+
+$router = new Router();
+
+$router->get('/', 'HomeController@index');
+
+$router->run();

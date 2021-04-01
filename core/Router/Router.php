@@ -152,7 +152,7 @@ class Router
         $vars = $this->dispatchedRoute[2];
 
         list($controllerName, $action) = explode("@", $handler, 2);
-        $controller = 'App\\Controllers\\' . $controllerName;
+        $controller = CONTROLLERS_NAMESPACE . $controllerName;
 
         call_user_func_array(array(new $controller, $action), $vars);
     }

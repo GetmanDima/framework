@@ -94,7 +94,11 @@ class Router
     {
         $this->dispatcher = simpleDispatcher(function (RouteCollector $rc) {
             foreach ($this->routes as $route) {
-                $rc->addRoute($route['httpMethod'], $route['pattern'], $route['handler']);
+                $pattern = PatternEditor::convertUserPattern($route['pattern']);
+
+                $rc->addRoute($route['httpMethod'],
+                    $pattern,
+                    $route['handler']);
             }
         });
 

@@ -14,5 +14,6 @@ Request::init();
 $router = new Router();
 
 $router->get('/', 'HomeController@index');
+$router->get('/user/{id:int}', 'HomeController@index');
 
 $router->run();

@@ -6,8 +6,11 @@ require_once dirname(__DIR__) . '/config/initializer.php';
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 
+use Core\DBConnection;
 use Core\Router\Router;
 use Core\Request;
+
+DBConnection::setup();
 
 Request::init();
 

@@ -45,6 +45,8 @@ class Request
         self::$files = $_FILES;
         self::$cookie = new Cookie();
         self::$session = new Session();
+
+        self::$session->start();
     }
 
     /**
@@ -110,7 +112,7 @@ class Request
     /**
      * @return Cookie
      */
-    public function cookie(): Cookie
+    public static function cookie(): Cookie
     {
         return self::$cookie;
     }
@@ -121,5 +123,18 @@ class Request
     public static function session(): Session
     {
         return self::$session;
+    }
+
+    public static function all()
+    {
+        return [
+            'httpMethod' => self::$httpMethod,
+            'uri' => self::$uri,
+            'get' => self::$get,
+            'post' => self::$post,
+            'files' => self::$files,
+            'cookie' => self::$cookie,
+            'session' => self::$session
+        ];
     }
 }

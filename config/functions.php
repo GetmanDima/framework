@@ -14,6 +14,16 @@ function runProductionMode()
     ini_set('display_errors', 'Off');
 }
 
+function setCookieLifeTime()
+{
+    ini_set('session.cookie_lifetime', COOKIE_LIFETIME);
+}
+
+function setSessionLifeTime()
+{
+    ini_set('session.gc_maxlifetime', SESSION_LIFETIME);
+}
+
 function debug($var)
 {
     echo '<pre>';

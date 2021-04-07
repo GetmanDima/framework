@@ -6,6 +6,8 @@ namespace Core;
 
 use \RedBeanPHP\R as R;
 
+require_once CONFIG_DIR . '/db.php';
+
 /**
  * Class DBConnection
  * @package Core

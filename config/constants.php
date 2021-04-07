@@ -1,12 +1,15 @@
 <?php
 
 define('DEBUG_MODE', true);
-define('CONTROLLERS_NAMESPACE', 'App\\Controllers\\');
-
-define('DB_HOST', '');
-define('DB_NAME', '');
-define('DB_USER', '');
-define('DB_PASSWORD', '');
 
 define('COOKIE_LIFETIME', 86400);
 define('SESSION_LIFETIME', 86400);
+
+define('CONTROLLERS_NAMESPACE', 'App\\Controllers\\');
+
+define('BASE_DIR', dirname(__DIR__));
+define('CORE_DIR', BASE_DIR . '/core');
+define('CONFIG_DIR', BASE_DIR . '/config');
+define('APP_DIR', BASE_DIR . '/app');
+define('PUBLIC_DIR', BASE_DIR . '/public');
+define('STORAGE_DIR', BASE_DIR . '/storage');

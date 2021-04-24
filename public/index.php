@@ -12,9 +12,7 @@ use Core\Request;
 
 DBConnection::setup();
 
-Request::init();
-
-$router = new Router();
+$router = new Router(Request::getInstance());
 
 $router->get('/', 'HomeController@index');
 $router->get('/user/{id:int}', 'HomeController@index');

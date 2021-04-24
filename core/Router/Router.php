@@ -12,6 +12,10 @@ use Core\Request;
 class Router
 {
     /**
+     * @var Request
+     */
+    private $request;
+    /**
      * @var Dispatcher
      */
     private $dispatcher;
@@ -23,6 +27,12 @@ class Router
      * @var array
      */
     private $dispatchedRoute = [];
+
+
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 
     /**
      * Add a route to list of routes
@@ -113,8 +123,8 @@ class Router
      */
     private function dispatch(): array
     {
-        $httpMethod = Request::getHttpMethod();
-        $stripedUri = Request::getUriWithoutQueryString();
+        $httpMethod = $this->request->getHttpMethod();
+        $stripedUri = $this->request->getUriWithoutQueryString();
 
         $this->dispatchedRoute = $this->dispatcher->dispatch($httpMethod, $stripedUri);
 
@@ -154,6 +164,10 @@ class Router
         list($controllerName, $action) = explode("@", $handler, 2);
         $controller = CONTROLLERS_NAMESPACE . $controllerName;
 
-        call_user_func_array(array(new $controller, $action), $vars);
+        if (empty($vars)) {
+            call_user_func_array(array(new $controller, $action), [$this->request]);
+        } else {
+            call_user_func_array(array(new $controller, $action), $vars);
+        }
     }
 }

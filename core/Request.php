@@ -7,62 +7,83 @@ namespace Core;
 class Request
 {
     /**
-     * @var string
+     * The Singleton's instance
+     *
+     * @var Request
      */
-    private static $httpMethod;
+    private static $instance;
     /**
      * @var string
      */
-    private static $uri;
+    private $httpMethod;
+    /**
+     * @var string
+     */
+    private $uri;
     /**
      * @var array
      */
-    private static $post = [];
+    private $post = [];
     /**
      * @var array
      */
-    private static $get = [];
+    private $get = [];
     /**
      * @var array
      */
-    private static $files = [];
+    private $files = [];
     /**
      * @var Cookie
      */
-    private static $cookie;
+    private $cookie;
     /**
      * @var Session
      */
     private static $session;
 
 
-    public static function init()
+    /**
+     * Controls the access to the singleton instance
+     *
+     * @return Request
+     */
+    public static function getInstance(): Request
     {
-        self::$httpMethod = $_SERVER['REQUEST_METHOD'];
-        self::$uri = rawurldecode($_SERVER['REQUEST_URI']);
-        self::$get = $_GET;
-        self::$post = $_POST;
-        self::$files = $_FILES;
-        self::$cookie = new Cookie();
-        self::$session = new Session();
+        if (!self::$instance) {
+            self::$instance = new self();
+        }
 
-        self::$session->start();
+        return self::$instance;
+    }
+
+    public function __construct()
+    {
+        $this->httpMethod = $_SERVER['REQUEST_METHOD'];
+        $this->uri = rawurldecode($_SERVER['REQUEST_URI']);
+        $this->get = $_GET;
+        $this->post = $_POST;
+        $this->files = $_FILES;
+        $this->cookie = new Cookie();
+        $this->session = new Session();
+        $this->validator = new Validator();
+
+        $this->session->start();
     }
 
     /**
      * @return string
      */
-    public static function getHttpMethod(): string
+    public function getHttpMethod(): string
     {
-        return self::$httpMethod;
+        return $this->httpMethod;
     }
 
     /**
      * @return string
      */
-    public static function getUri(): string
+    public function getUri(): string
     {
-        return self::$uri;
+        return $this->uri;
     }
 
     /**
@@ -71,70 +92,73 @@ class Request
      *
      * @return string
      */
-    public static function getUriWithoutQueryString(): string
+    public function getUriWithoutQueryString(): string
     {
-        $separatorIndex = strpos(self::$uri, '?');
+        $separatorIndex = strpos($this->uri, '?');
 
         if ($separatorIndex !== false) {
-            return substr(self::$uri, 0, $separatorIndex);
+            return substr($this->uri, 0, $separatorIndex);
         }
 
-        return self::$uri;
+        return $this->uri;
     }
 
     /**
      * @param string $name
      * @return mixed
      */
-    public static function get($name)
+    public function get($name)
     {
-        return self::$get[$name];
+        return $this->get[$name];
     }
 
     /**
      * @param string $name
      * @return mixed
      */
-    public static function post($name)
+    public function post($name)
     {
-        return self::$post[$name];
+        return $this->post[$name];
     }
 
     /**
      * @param string $name
      * @return mixed
      */
-    public static function files($name)
+    public function files($name)
     {
-        return self::$files[$name];
+        return $this->files[$name];
     }
 
     /**
      * @return Cookie
      */
-    public static function cookie(): Cookie
+    public function cookie(): Cookie
     {
-        return self::$cookie;
+        return $this->cookie;
     }
 
     /**
      * @return Session
      */
-    public static function session(): Session
+    public function session(): Session
     {
-        return self::$session;
+        return $this->session;
     }
 
-    public static function all()
+    /**
+     * @return array
+     */
+    public function all(): array
     {
         return [
-            'httpMethod' => self::$httpMethod,
-            'uri' => self::$uri,
-            'get' => self::$get,
-            'post' => self::$post,
-            'files' => self::$files,
-            'cookie' => self::$cookie,
-            'session' => self::$session
+            'httpMethod' => $this->httpMethod,
+            'uri' => $this->uri,
+            'get' => $this->get,
+            'post' => $this->post,
+            'files' => $this->files,
+            'cookie' => $this->cookie,
+            'session' => $this->session
         ];
     }
 }

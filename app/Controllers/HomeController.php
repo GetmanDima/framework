@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 
 use Core\Controller;
+use Core\Request;
 
 class HomeController extends Controller
 {
@@ -13,7 +14,7 @@ class HomeController extends Controller
         $this->view = 'home';
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $this->render();
     }

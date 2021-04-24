@@ -2,3 +2,5 @@
 /.idea/
 # Composer vendor
 /vendor/
+# db config
+/config/db.php

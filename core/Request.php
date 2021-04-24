@@ -4,6 +4,9 @@
 namespace Core;
 
 
+use Rakit\Validation\Validation;
+use Rakit\Validation\Validator;
+
 class Request
 {
     /**
@@ -39,7 +42,11 @@ class Request
     /**
      * @var Session
      */
-    private static $session;
+    private $session;
+    /**
+     * @var Validator
+     */
+    private $validator;
 
 
     /**
@@ -160,5 +167,33 @@ class Request
             'cookie' => $this->cookie,
             'session' => $this->session
         ];
+    }
+
+    /**
+     * @param array $inputNames
+     * @param array $rules
+     * @return Validation
+     */
+    public function validation($inputNames, $rules): Validation
+    {
+        $inputs = $this->getInputsByNames($inputNames);
+
+        return $this->validator->make($inputs, $rules);
+    }
+
+    /**
+     * @param array $inputNames
+     * @return array
+     */
+    private function getInputsByNames($inputNames): array
+    {
+        $all = $this->all();
+        $inputs = [];
+
+        foreach ($inputNames as $inputName) {
+            $inputs += $all[$inputName];
+        }
+
+        return $inputs;
     }
 }

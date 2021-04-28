@@ -4,6 +4,8 @@
 namespace Core\Router;
 
 
+use Core\Controller;
+use Core\Middleware\MiddlewareHandler;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
@@ -162,12 +164,35 @@ class Router
         $vars = $this->dispatchedRoute[2];
 
         list($controllerName, $action) = explode("@", $handler, 2);
+
         $controller = CONTROLLERS_NAMESPACE . $controllerName;
+        $controllerInstance = new $controller;
 
         if (empty($vars)) {
-            call_user_func_array(array(new $controller, $action), [$this->request]);
+            $controllerAction = function() use ($controllerInstance, $action) {
+                call_user_func_array(array($controllerInstance, $action), [$this->request]);
+            };
         } else {
-            call_user_func_array(array(new $controller, $action), $vars);
+            $controllerAction = function() use ($vars, $controllerInstance, $action) {
+                call_user_func_array(array($controllerInstance, $action), $vars);
+            };
         }
+
+        $this->runAfterMiddleware($controllerInstance, $controllerAction);
+    }
+
+    /**
+     * Run controller action after middleware check
+     *
+     * @param Controller $controller
+     * @param callable $controllerAction
+     */
+    private function runAfterMiddleware(Controller $controller, callable $controllerAction)
+    {
+        $middlewareNames = $controller->getMiddleware();
+
+        $middlewareHandler = new MiddlewareHandler($this->request, $controllerAction);
+        $middlewareHandler->selectMiddleware($middlewareNames);
+        $middlewareHandler->runMiddleware();
     }
 }

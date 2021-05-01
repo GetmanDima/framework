@@ -45,23 +45,30 @@ class MiddlewareHandler
     }
 
     /**
-     * @param array $names
+     * Get $middlewareContainer from Controller
+     * Select middleware for current Controller action
+     *
+     * @param array $middlewareContainer
      */
-    public function selectMiddleware(array $names): void
+    public function selectMiddleware(array $middlewareContainer): void
     {
-        if (count($names) < 1) {
+        if (count($middlewareContainer) < 1) {
             return;
         }
 
-        foreach ($names as $name) {
-            if (key_exists($name, $this->middleware)) {
-                $instance = new $this->middleware[$name];
-                $this->selectedMiddleware[] = $instance;
+        $actionName = $this->request->getRouterData()['action'];
+
+        foreach ($middlewareContainer as $item) {
+            if (key_exists($item['name'], $this->middleware)) {
+                if ($item['action'] === '' || $item['action'] === $actionName) {
+                    $instance = new $this->middleware[$item['name']];
+                    $this->selectedMiddleware[] = $instance;
+                }
             }
         }
     }
 
-    public function runMiddleware() {
+    public function runMiddleware(): void {
         if (count($this->selectedMiddleware) > 0) {
             $this->createMiddlewareQueue();
             $this->selectedMiddleware[0]->handle($this->request);

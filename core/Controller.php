@@ -38,22 +38,30 @@ abstract class Controller {
      *
      * @var array
      */
-    protected $middleware = [];
+    protected $middlewareContainer = [];
 
     /**
      * @return array
      */
     public function getMiddleware(): array
     {
-        return $this->middleware;
+        return $this->middlewareContainer;
     }
 
     /**
      * @param array $middleware
+     * @param string $action
      */
-    public function setMiddleware(array $middleware): void
+    public function middleware(array $middleware, string $action = ''): void
     {
-        $this->middleware = $middleware;
+        $items = array_map(
+            function ($m) use ($action) {
+                return ['name' => $m, 'action' => $action];
+            },
+            $middleware
+        );
+
+        $this->middlewareContainer = array_merge($this->middlewareContainer, $items);
     }
 
     /**

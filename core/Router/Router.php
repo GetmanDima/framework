@@ -150,15 +150,22 @@ class Router
                 var_dump($allowedMethods);
                 break;
             case Dispatcher::FOUND:
-                $this->runControllerAction();
+                $routerData = $this->getDispatchedRouteData();
+
+                $controller = $routerData['controller'];
+                $action = $routerData['action'];
+                $vars = $routerData['vars'];
+
+                $this->setRouterDataInRequest($controller, $action, $vars);
+                $this->runControllerAction($controller, $action, $vars);
                 break;
         }
     }
 
     /**
-     * Run controller's action for dispatched route
+     * @return array
      */
-    private function runControllerAction()
+    private function getDispatchedRouteData(): array
     {
         $handler = $this->dispatchedRoute[1];
         $vars = $this->dispatchedRoute[2];
@@ -166,17 +173,37 @@ class Router
         list($controllerName, $action) = explode("@", $handler, 2);
 
         $controller = CONTROLLERS_NAMESPACE . $controllerName;
-        $controllerInstance = new $controller;
 
-        if (empty($vars)) {
-            $controllerAction = function() use ($controllerInstance, $action) {
-                call_user_func_array(array($controllerInstance, $action), [$this->request]);
-            };
-        } else {
-            $controllerAction = function() use ($vars, $controllerInstance, $action) {
-                call_user_func_array(array($controllerInstance, $action), $vars);
-            };
-        }
+        return compact('controller', 'action', 'vars');
+    }
+
+    /**
+     * @param string $controller
+     * @param string $action
+     * @param array $vars
+     */
+    private function setRouterDataInRequest(string $controller, string $action, array $vars)
+    {
+        $this->request->setRouterData(
+            compact('controller', 'action', 'vars')
+        );
+    }
+
+    /**
+     * Run controller's action for dispatched route
+     *
+     * @param string $controller
+     * @param string $action
+     * @param array $vars
+     */
+    private function runControllerAction(string $controller, string $action, array $vars)
+    {
+        $controllerInstance = new $controller;
+        $controllerInstance->setRequest($this->request);
+
+        $controllerAction = function() use ($controllerInstance, $action, $vars) {
+            call_user_func_array(array($controllerInstance, $action), $vars);
+        };
 
         $this->runAfterMiddleware($controllerInstance, $controllerAction);
     }

@@ -47,7 +47,14 @@ class Request
      * @var Validator
      */
     private $validator;
-
+    /**
+     * @var array
+     */
+    private $routerData = [
+        'controller' => '',
+        'action' => '',
+        'vars' => []
+    ];
 
     /**
      * Controls the access to the singleton instance
@@ -179,6 +186,22 @@ class Request
         $inputs = $this->getInputsByNames($inputNames);
 
         return $this->validator->make($inputs, $rules);
+    }
+
+    /**
+     * @return array
+     */
+    public function getRouterData(): array
+    {
+        return $this->routerData;
+    }
+
+    /**
+     * @param array $routerData
+     */
+    public function setRouterData(array $routerData): void
+    {
+        $this->routerData = $routerData;
     }
 
     /**

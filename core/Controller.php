@@ -4,14 +4,27 @@
 namespace Core;
 
 
+use Rakit\Validation\Validation;
+
 /**
  * Class Controller
  * @package Core
  *
  * Base controller class. Application controllers should extend from base model.
  */
-abstract class Controller {
+abstract class Controller
+{
 
+    /**
+     * @var Request
+     */
+    protected $request;
+    /**
+     * Redirect if fail validation
+     *
+     * @var string
+     */
+    protected $failRedirectTo = '/';
     /**
      * Page template
      *
@@ -39,6 +52,14 @@ abstract class Controller {
      * @var array
      */
     protected $middlewareContainer = [];
+
+    /**
+     * @param Request $request
+     */
+    public function setRequest(Request $request)
+    {
+        $this->request = $request;
+    }
 
     /**
      * @return array
@@ -77,6 +98,56 @@ abstract class Controller {
             View::render($this->view, $this->template, $this->vars);
         } else {
             View::render($view, $template, $vars);
+        }
+    }
+
+    /**
+     * Common validation rules (for all actions)
+     *
+     * @return Validation
+     */
+    protected function validation()
+    {
+        return $this->request->validation([], []);
+    }
+
+    /**
+     * @param Validation|null $validation
+     * @param string $successRedirectTo
+     * @param string $failRedirectTo
+     */
+    protected function validate(Validation $validation = null, $failRedirectTo = '')
+    {
+        if ($failRedirectTo === '') {
+            $failRedirectTo = $this->failRedirectTo;
+        }
+
+        if ($validation === null) {
+            $validation = $this->validation();
+        }
+
+        $validation->validate();
+
+        $this->createValidationMessage($validation);
+
+        if ($validation->fails()) {
+            redirect($failRedirectTo);
+        }
+    }
+
+    /**
+     * @param Validation $validation
+     */
+    protected function createValidationMessage(Validation $validation)
+    {
+        $session = $this->request->session();
+
+        if ($validation->fails()) {
+            $errors = $validation->errors();
+            $session->flash('validation', 'fail');
+            $session->flash('form-errors', $errors->all());
+        } else {
+            $session->flash('validation', 'success');
         }
     }
 }

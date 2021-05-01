@@ -39,3 +39,9 @@ function dd($var)
 
     die();
 }
+
+function redirect($url)
+{
+    header("Location: {$url}");
+    exit;
+}

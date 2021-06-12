@@ -33,7 +33,7 @@ class RegisterController extends AppController
 
     public function showRegistrationForm()
     {
-        $title = 'Sign Up';
+        $title = 'Register';
         $session = $this->request->session();
         $errors = [];
 

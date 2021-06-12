@@ -10,7 +10,7 @@ if (isset($errors)) {
 ?>
 
 <h2 class="h3 text-center mb-4">
-    Sign Up
+    Register
 </h2>
 
 <form action="/register" method="POST" class="col-md-8 col-lg-7 col-xl-6 mx-auto">
@@ -79,6 +79,6 @@ if (isset($errors)) {
     </div>
 
     <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <button type="submit" class="btn btn-primary">Register</button>
     </div>
 </form>

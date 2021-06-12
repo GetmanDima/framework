@@ -10,6 +10,6 @@ endif;
 
 echo 'Framework home';
 
-if (isset($user)) {
-    dd($user);
-}
+//if (isset($user)) {
+//    dd($user);
+//}

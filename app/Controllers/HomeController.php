@@ -4,19 +4,29 @@
 namespace App\Controllers;
 
 
-use Core\Controller;
-use Core\Request;
-
-class HomeController extends Controller
+class HomeController extends AppController
 {
+    protected string $failRedirectTo = '/fail';
+
     public function __construct()
     {
-        $this->view = 'home';
-        $this->setMiddleware(['auth']);
+        $this->middleware(['auth']);
+        $this->middleware(['guest'], 'index');
     }
 
-    public function index(Request $request)
+    /**
+     * @return \Rakit\Validation\Validation
+     */
+    protected function validation(): \Rakit\Validation\Validation
     {
-        $this->render();
+        return $this->request->validation(['get'], ['a' => 'numeric']);
+    }
+
+    public function index()
+    {
+        $title = 'Home';
+
+        $this->validate();
+        $this->render('home', 'templates/default', compact('title'));
     }
 }

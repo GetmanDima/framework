@@ -2,5 +2,11 @@
 /.idea/
 # Composer vendor
 /vendor/
+# Node modules
+/node_modules/
 # db config
 /config/db.php
+# public
+/public/css/
+/public/js/
+/pubic/img/

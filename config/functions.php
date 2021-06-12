@@ -45,3 +45,9 @@ function redirect($url)
     header("Location: {$url}");
     exit;
 }
+
+function includeView($view, $vars)
+{
+    extract($vars);
+    include_once PUBLIC_DIR . '/views/' . $view . '.php';
+}

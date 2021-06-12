@@ -17,4 +17,10 @@ $router = new Router(Request::getInstance());
 $router->get('/', 'HomeController@index');
 $router->get('/user/{id:int}', 'HomeController@index');
 
+$router->get('/register', 'Auth\\RegisterController@showRegistrationForm');
+$router->post('/register', 'Auth\\RegisterController@register');
+
+$router->get('/login', 'Auth\\LoginController@showLoginForm');
+$router->post('/login', 'Auth\\LoginController@login');
+
 $router->run();

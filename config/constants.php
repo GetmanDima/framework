@@ -1,5 +1,8 @@
 <?php
 
+define('APP_NAME', 'framework');
+define('APP_URL', 'http://framework.loc');
+
 define('DEBUG_MODE', true);
 
 define('COOKIE_LIFETIME', 86400);

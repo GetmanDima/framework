@@ -19,9 +19,10 @@ class HomeController extends AppController
     public function index()
     {
         $title = 'Home';
-        $user = $this->request->session()->get('user');
+        $user = $this->getLoggedUser();
+        $message = $this->request->session()->getFlash('message');
 
         $this->validate();
-        $this->render('home', 'templates/default', compact('title', 'user'));
+        $this->render('home', 'templates/default', compact('title', 'user', 'message'));
     }
 }

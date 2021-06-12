@@ -24,4 +24,6 @@ $router->get('/login', 'Auth\\LoginController@showLoginForm');
 $router->post('/login', 'Auth\\LoginController@login');
 $router->post('/logout', 'Auth\\LoginController@logout');
 
+$router->get('/verify', 'Auth\\EmailVerificationController@verify');
+
 $router->run();

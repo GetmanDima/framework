@@ -17,3 +17,4 @@ define('CONFIG_DIR', BASE_DIR . '/config');
 define('APP_DIR', BASE_DIR . '/app');
 define('PUBLIC_DIR', BASE_DIR . '/public');
 define('STORAGE_DIR', BASE_DIR . '/storage');
+define('APP_CACHE_DIR', STORAGE_DIR . '/app/cache');

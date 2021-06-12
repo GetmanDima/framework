@@ -48,6 +48,10 @@ class Request
      */
     private $session;
     /**
+     * @var Cache
+     */
+    private $cache;
+    /**
      * @var Validator
      */
     private $validator;
@@ -83,6 +87,7 @@ class Request
         $this->files = $_FILES;
         $this->cookie = new Cookie();
         $this->session = new Session();
+        $this->cache = new Cache();
 
         $this->initValidator();
         $this->session->start();
@@ -175,6 +180,14 @@ class Request
     public function session(): Session
     {
         return $this->session;
+    }
+
+    /**
+     * @return Cache
+     */
+    public function cache(): Cache
+    {
+        return $this->cache;
     }
 
     /**

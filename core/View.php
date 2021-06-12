@@ -7,7 +7,6 @@ namespace Core;
 class View {
 
     private static $viewsDir = PUBLIC_DIR . '/views';
-    private static $templatesDir = PUBLIC_DIR . '/views/templates';
 
 
     /**
@@ -25,8 +24,8 @@ class View {
             if (file_exists(self::$viewsDir . "/{$view}.php")) {
                 include_once self::$viewsDir . "/{$view}.php";
             }
-        } else if (file_exists(self::$templatesDir . "/{$template}.php")) {
-            include_once self::$templatesDir . "/{$template}.php";
+        } else if (file_exists(self::$viewsDir . "/{$template}.php")) {
+            include_once self::$viewsDir . "/{$template}.php";
         }
     }
 
@@ -36,13 +35,5 @@ class View {
     public static function setViewsDir($dir)
     {
         self::$viewsDir = $dir;
-    }
-
-    /**
-     * @param string $dir
-     */
-    public static function setTemplatesDir($dir)
-    {
-        self::$templatesDir = $dir;
     }
 }

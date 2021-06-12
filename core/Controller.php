@@ -24,7 +24,7 @@ abstract class Controller
      *
      * @var string
      */
-    protected $failRedirectTo = '/';
+    protected string $failRedirectTo = '/';
     /**
      * Page template
      *
@@ -99,6 +99,8 @@ abstract class Controller
         } else {
             View::render($view, $template, $vars);
         }
+
+        $this->request->session()->removeFlashes();
     }
 
     /**
@@ -113,10 +115,9 @@ abstract class Controller
 
     /**
      * @param Validation|null $validation
-     * @param string $successRedirectTo
      * @param string $failRedirectTo
      */
-    protected function validate(Validation $validation = null, $failRedirectTo = '')
+    protected function validate(Validation $validation = null, string $failRedirectTo = '')
     {
         if ($failRedirectTo === '') {
             $failRedirectTo = $this->failRedirectTo;
@@ -144,10 +145,10 @@ abstract class Controller
 
         if ($validation->fails()) {
             $errors = $validation->errors();
-            $session->flash('validation', 'fail');
-            $session->flash('form-errors', $errors->all());
+            $session->setFlash('validation', 'fail');
+            $session->setFlash('form-errors', $errors->toArray());
         } else {
-            $session->flash('validation', 'success');
+            $session->setFlash('validation', 'success');
         }
     }
 }

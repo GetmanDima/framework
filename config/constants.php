@@ -6,6 +6,7 @@ define('COOKIE_LIFETIME', 86400);
 define('SESSION_LIFETIME', 86400);
 
 define('CONTROLLERS_NAMESPACE', 'App\\Controllers\\');
+define('MODELS_NAMESPACE', 'App\\Models\\');
 
 define('BASE_DIR', dirname(__DIR__));
 define('CORE_DIR', BASE_DIR . '/core');

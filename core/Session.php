@@ -6,13 +6,6 @@ namespace Core;
 
 class Session
 {
-    /**
-     * Array of flash names
-     *
-     * @var array
-     */
-    private static $flashes = [];
-
     public function start()
     {
         session_start();
@@ -43,14 +36,13 @@ class Session
     /**
      * @param string $name
      * @return mixed
-     * @throws \Exception
      */
     public function get($name)
     {
         if ($this->has($name)) {
             return $_SESSION[$name];
         } else {
-            throw new \Exception("Undefined session variable name: $name");
+            return null;
         }
     }
 
@@ -68,10 +60,38 @@ class Session
      * @param string $name
      * @param mixed $value
      */
-    public function flash($name, $value)
+    public function setFlash(string $name, $value)
     {
-        $this->set($name, $value);
-        self::$flashes[] = $name;
+        $this->set(
+            'flashes',
+            array_merge($this->get('flashes') ?? [], [$name => $value])
+        );
+    }
+
+    /**
+     * @param string $name
+     * @return mixed|null
+     */
+    public function getFlash(string $name)
+    {
+        $flashes = $this->get('flashes');
+
+        if ($this->hasFlash($name)) {
+            return $flashes[$name];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function hasFlash(string $name): bool
+    {
+        $flashes = $this->get('flashes');
+
+        return isset($flashes) && array_key_exists($name, $flashes);
     }
 
     /**
@@ -90,11 +110,7 @@ class Session
      */
     public function removeFlashes()
     {
-        foreach (self::$flashes as $flash) {
-            if ($this->has($flash)) {
-                unset($_SESSION[$flash]);
-            }
-        }
+        $this->remove('flashes');
     }
 
     public function removeAll()

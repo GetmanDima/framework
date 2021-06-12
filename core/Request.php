@@ -10,6 +10,10 @@ use Rakit\Validation\Validator;
 class Request
 {
     /**
+     * @var string
+     */
+    const VALIDATION_RULES_PATH = CONFIG_DIR . '/validationRules.php';
+    /**
      * The Singleton's instance
      *
      * @var Request
@@ -79,9 +83,22 @@ class Request
         $this->files = $_FILES;
         $this->cookie = new Cookie();
         $this->session = new Session();
-        $this->validator = new Validator();
 
+        $this->initValidator();
         $this->session->start();
+    }
+
+    public function initValidator()
+    {
+        $validator = new Validator();
+
+        $rules = require_once self::VALIDATION_RULES_PATH;
+
+        foreach ($rules as $name => $handler) {
+            $validator->addValidator($name, new $handler);
+        }
+
+        $this->validator = $validator;
     }
 
     /**

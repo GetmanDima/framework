@@ -29,13 +29,27 @@ abstract class Model extends SimpleModel
 
 
     /**
+     * @param array $attributes
      * @return static
      */
-    public static function dispense(): Model
+    public static function dispense(array $attributes = []): Model
     {
-        $bean = R::dispense(static::$table);
+        if (count($attributes) > 0) {
+            $attributes['_type'] = static::$table;
+            $bean = R::dispense($attributes);
+        } else {
+            $bean = R::dispense(static::$table);
+        }
 
         return static::createInstance($bean);
+    }
+
+    public static function create(array $attributes = []): Model
+    {
+        $model = static::dispense($attributes);
+        $model->store();
+
+        return $model;
     }
 
     /**
@@ -50,12 +64,32 @@ abstract class Model extends SimpleModel
     }
 
     /**
+     * @param array $attributes
      * @param string|null $sql
-     * @return Model
+     * @param array $bindings
+     * @return Model|null
      */
-    public static function findOne($sql = null): Model
+    public static function findOne($attributes = [], $sql = null, $bindings = [])
     {
-        $bean = R::findOne(static::$table, $sql);
+        if (!empty($attributes)) {
+            if ($sql === null) {
+                $sql = '';
+            }
+
+            foreach ($attributes as $field => $value) {
+                if ($sql === '') {
+                    $sql .= "$field = '$value' ";
+                } else {
+                    $sql .= "AND $field = '$value' ";
+                }
+            }
+        }
+
+        $bean = R::findOne(static::$table, $sql, $bindings);
+
+        if ($bean === null) {
+            return null;
+        }
 
         return static::createInstance($bean);
     }
@@ -85,14 +119,14 @@ abstract class Model extends SimpleModel
     }
 
     /**
-     * @param array $array
+     * @param array $like
      * @param string $sql
      * @param array $bindings
      * @return array
      */
-    public static function findLike($array = [], $sql = '', $bindings = []): array
+    public static function findLike($like = [], $sql = '', $bindings = []): array
     {
-        $beans = R::findLike(static::$table, $array, $sql, $bindings);
+        $beans = R::findLike(static::$table, $like, $sql, $bindings);
 
         return static::createInstanceArray($beans);
     }

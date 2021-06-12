@@ -72,6 +72,9 @@ class MiddlewareHandler
         if (count($this->selectedMiddleware) > 0) {
             $this->createMiddlewareQueue();
             $this->selectedMiddleware[0]->handle($this->request);
+        } else {
+            $controllerAction = $this->controllerAction;
+            $controllerAction();
         }
     }
 

@@ -22,5 +22,6 @@ $router->post('/register', 'Auth\\RegisterController@register');
 
 $router->get('/login', 'Auth\\LoginController@showLoginForm');
 $router->post('/login', 'Auth\\LoginController@login');
+$router->post('/logout', 'Auth\\LoginController@logout');
 
 $router->run();

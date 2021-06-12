@@ -8,12 +8,6 @@ class HomeController extends AppController
 {
     protected string $failRedirectTo = '/fail';
 
-    public function __construct()
-    {
-        $this->middleware(['auth']);
-        $this->middleware(['guest'], 'index');
-    }
-
     /**
      * @return \Rakit\Validation\Validation
      */
@@ -25,8 +19,9 @@ class HomeController extends AppController
     public function index()
     {
         $title = 'Home';
+        $user = $this->request->session()->get('user');
 
         $this->validate();
-        $this->render('home', 'templates/default', compact('title'));
+        $this->render('home', 'templates/default', compact('title', 'user'));
     }
 }

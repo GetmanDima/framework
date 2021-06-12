@@ -14,7 +14,9 @@ class LoginController extends AppController
 
     public function __construct()
     {
-        $this->middleware(['guest']);
+        $this->middleware(['guest'], 'showLoginForm');
+        $this->middleware(['guest'], 'login');
+        $this->middleware(['auth'], 'logout');
     }
 
     /**
@@ -63,7 +65,14 @@ class LoginController extends AppController
 
             redirect('/login');
         } else {
-            dd($user);
+            $this->request->session()->set('user', $user);
+            redirect('/');
         }
+    }
+
+    public function logout()
+    {
+        $this->request->session()->remove('user');
+        redirect('/login');
     }
 }

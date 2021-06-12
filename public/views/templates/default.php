@@ -36,6 +36,9 @@
                     <a class="nav-link <?=$title === 'Sign Up' ? 'active' : ''?>" href="/register">Sign Up</a>
                 </li>
             </ul>
+            <form class="my-2 my-lg-0 mx-lg-2 mx-md-0" action="/logout" method="POST">
+                <button type="submit" class="nav-link link-secondary px-0">Logout</button>
+            </form>
         </div>
     </div>
 </nav>

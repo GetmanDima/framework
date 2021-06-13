@@ -26,4 +26,6 @@ $router->post('/logout', 'Auth\\LoginController@logout');
 
 $router->get('/verify', 'Auth\\EmailVerificationController@verify');
 
+$router->get('/users', 'UserController@index');
+
 $router->run();

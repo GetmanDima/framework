@@ -31,6 +31,10 @@
                     <a class="nav-link <?= $title === 'Home' ? 'active' : '' ?>" aria-current="page" href="/">Home</a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link <?= $title === 'Users' ? 'active' : '' ?>" aria-current="page" href="/users">Users</a>
+                </li>
+
                 <?php
                 if (!isset($user)):
                     ?>

@@ -6,6 +6,8 @@
 /node_modules/
 # db config
 /config/db.php
+# storage
+/storage/
 # public
 /public/css/
 /public/js/

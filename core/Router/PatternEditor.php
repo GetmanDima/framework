@@ -14,7 +14,7 @@ class PatternEditor
     private static $patterns = [
         'int' => '[0-9]+',
         'str' => '[a-zA-Z]+',
-        'all' => '[0-9a-zA-Z]+'
+        'all' => '.*'
     ];
 
 

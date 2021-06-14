@@ -7,9 +7,9 @@ namespace Core\ValidationRules;
 use Illuminate\Database\Eloquent\Model;
 use Rakit\Validation\Rule;
 
-class UniqueRule extends Rule
+class ExistsRule extends Rule
 {
-    protected $message = ":attribute :value has been used";
+    protected $message = "User with :attribute :value not found";
 
     protected $fillableParams = ['model', 'field'];
 
@@ -28,6 +28,6 @@ class UniqueRule extends Rule
 
         $modelWithSameValue = $model::where($field, $value)->get();
 
-        return count($modelWithSameValue) === 0;
+        return count($modelWithSameValue) > 0;
     }
 }

@@ -77,6 +77,7 @@ class ForgotPasswordController extends AppController
         $mail->setMessageData($isHtml, $subject, $body);
         $mail->send($email);
 
+        $this->setAlertMessage('success', 'Email with password reset link was sent');
         redirect('/password/reset');
     }
 

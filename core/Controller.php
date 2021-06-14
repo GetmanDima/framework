@@ -18,7 +18,7 @@ abstract class Controller
     /**
      * @var Request
      */
-    protected $request;
+    protected Request $request;
     /**
      * Redirect if fail validation
      *
@@ -30,28 +30,28 @@ abstract class Controller
      *
      * @var string
      */
-    protected $template = '';
+    protected string $template = '';
 
     /**
      * Page content
      *
      * @var string
      */
-    protected $view = '';
+    protected string $view = '';
 
     /**
      * Array of view variables
      *
      * @var array
      */
-    protected $vars = [];
+    protected array $vars = [];
 
     /**
      * Array of middleware names
      *
      * @var array
      */
-    protected $middlewareContainer = [];
+    protected array $middlewareContainer = [];
 
     /**
      * @param Request $request

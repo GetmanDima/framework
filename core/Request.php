@@ -22,43 +22,43 @@ class Request
     /**
      * @var string
      */
-    private $httpMethod;
+    private string $httpMethod;
     /**
      * @var string
      */
-    private $uri;
+    private string $uri;
     /**
      * @var array
      */
-    private $post = [];
+    private array $post = [];
     /**
      * @var array
      */
-    private $get = [];
+    private array $get = [];
     /**
      * @var array
      */
-    private $files = [];
+    private array $files = [];
     /**
      * @var Cookie
      */
-    private $cookie;
+    private Cookie $cookie;
     /**
      * @var Session
      */
-    private $session;
+    private Session $session;
     /**
      * @var Cache
      */
-    private $cache;
+    private Cache $cache;
     /**
      * @var Validator
      */
-    private $validator;
+    private Validator $validator;
     /**
      * @var array
      */
-    private $routerData = [
+    private array $routerData = [
         'controller' => '',
         'action' => '',
         'vars' => []

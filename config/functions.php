@@ -40,13 +40,20 @@ function dd($var)
     die();
 }
 
-function redirect($url)
+/**
+ * @param string $url
+ */
+function redirect(string $url)
 {
     header("Location: {$url}");
     exit;
 }
 
-function includeView($view, $vars)
+/**
+ * @param string $view
+ * @param array $vars
+ */
+function includeView(string $view, array $vars)
 {
     extract($vars);
     include_once PUBLIC_DIR . '/views/' . $view . '.php';

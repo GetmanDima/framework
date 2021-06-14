@@ -36,7 +36,10 @@ class ForgotPasswordController extends AppController
         );
     }
 
-    public function showResetPasswordForm($token)
+    /**
+     * @param string $token
+     */
+    public function showResetPasswordForm(string $token)
     {
         $title = 'Reset password';
         $loggedUser = $this->getLoggedUser();

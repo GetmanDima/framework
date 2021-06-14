@@ -11,7 +11,7 @@ class PatternEditor
      *
      * @var array
      */
-    private static $patterns = [
+    private static array $patterns = [
         'int' => '[0-9]+',
         'str' => '[a-zA-Z]+',
         'all' => '.*'

@@ -13,11 +13,11 @@ class MiddlewareHandler
      *
      * @var string
      */
-    private $path = APP_DIR . '/middleware.php';
+    private string $path = APP_DIR . '/middleware.php';
     /**
      * @var Request
      */
-    private $request;
+    private Request $request;
     /**
      * @var callable
      */
@@ -25,11 +25,11 @@ class MiddlewareHandler
     /**
      * @var array
      */
-    private $middleware = [];
+    private array $middleware = [];
     /**
      * @var Middleware[]
      */
-    private $selectedMiddleware = [];
+    private array $selectedMiddleware = [];
 
 
     /**
@@ -68,7 +68,8 @@ class MiddlewareHandler
         }
     }
 
-    public function runMiddleware(): void {
+    public function runMiddleware(): void
+    {
         if (count($this->selectedMiddleware) > 0) {
             $this->createMiddlewareQueue();
             $this->selectedMiddleware[0]->handle($this->request);

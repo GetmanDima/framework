@@ -18,9 +18,9 @@ class AppController extends Controller
     }
 
     /**
-     * @return Model
+     * @return Model|null
      */
-    public function getLoggedUser()
+    public function getLoggedUser(): ?Model
     {
         return $this->request->session()->get('user');
     }

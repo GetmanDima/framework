@@ -16,9 +16,9 @@ class User extends Model
 
     /**
      * @param array $attributes
-     * @return Model
+     * @return Model|null
      */
-    public static function register(array $attributes = []): Model
+    public static function register(array $attributes = []): ?Model
     {
         $attributesWithPasswordHash = $attributes;
         $attributesWithPasswordHash['password'] = password_hash($attributes['password'], PASSWORD_BCRYPT);

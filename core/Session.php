@@ -28,7 +28,7 @@ class Session
      * @param string $name
      * @param mixed $value
      */
-    public function set($name, $value)
+    public function set(string $name, $value)
     {
         $_SESSION[$name] = $value;
     }
@@ -37,7 +37,7 @@ class Session
      * @param string $name
      * @return mixed
      */
-    public function get($name)
+    public function get(string $name)
     {
         if ($this->has($name)) {
             return $_SESSION[$name];
@@ -46,12 +46,19 @@ class Session
         }
     }
 
-    public function has($name): bool
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function has(string $name): bool
     {
         return isset($_SESSION[$name]);
     }
 
-    public function all()
+    /**
+     * @return array
+     */
+    public function all(): array
     {
         return $_SESSION;
     }
@@ -97,7 +104,7 @@ class Session
     /**
      * @param string $name
      */
-    public function remove($name)
+    public function remove(string $name)
     {
         if ($this->has($name)) {
             unset($_SESSION[$name]);

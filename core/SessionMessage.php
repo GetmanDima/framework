@@ -19,9 +19,9 @@ trait SessionMessage
     }
 
     /**
-     * @return string|null
+     * @return array|null
      */
-    private function getAlertMessage()
+    private function getAlertMessage(): ?array
     {
         return $this->request->session()->getFlash('message');
     }

@@ -12,7 +12,10 @@ class EmailVerificationController extends AppController
 {
     use SessionMessage;
 
-    public function verify($token)
+    /**
+     * @param string $token
+     */
+    public function verify(string $token)
     {
         $user = User::where('remember_token', $token)->first();
 

@@ -15,7 +15,7 @@ class Cookie
      * @param int $minutes
      * @param string $path
      */
-    public function set($name, $value, $minutes = 0, $path = '/')
+    public function set(string $name, string $value, int $minutes = 0, string $path = '/')
     {
         $time = $minutes * 60;
 
@@ -31,7 +31,7 @@ class Cookie
      * @return mixed
      * @throws \Exception
      */
-    public function get($name)
+    public function get(string $name)
     {
         if ($this->has($name)) {
             return $_COOKIE[$name];
@@ -44,7 +44,7 @@ class Cookie
      * @param string $name
      * @return bool
      */
-    public function has($name): bool
+    public function has(string $name): bool
     {
         return isset($_COOKIE[$name]);
     }
@@ -53,7 +53,7 @@ class Cookie
      * @param string $name
      * @param string $path
      */
-    public function remove($name, $path = '/')
+    public function remove(string $name, string $path = '/')
     {
         if ($this->has($name)) {
             unset($_COOKIE[$name]);

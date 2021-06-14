@@ -16,19 +16,19 @@ class Router
     /**
      * @var Request
      */
-    private $request;
+    private Request $request;
     /**
      * @var Dispatcher
      */
-    private $dispatcher;
+    private Dispatcher $dispatcher;
     /**
      * @var array
      */
-    private $routes = [];
+    private array $routes = [];
     /**
      * @var array
      */
-    private $dispatchedRoute = [];
+    private array $dispatchedRoute = [];
 
 
     public function __construct(Request $request)

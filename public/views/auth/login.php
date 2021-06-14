@@ -57,4 +57,8 @@ endif
     <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-primary">Login</button>
     </div>
+
+    <div class="d-flex justify-content-end mt-4">
+        <a href="/password/reset" class="link-primary">Forgot password?</a>
+    </div>
 </form>

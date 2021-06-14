@@ -16,5 +16,6 @@ define('CORE_DIR', BASE_DIR . '/core');
 define('CONFIG_DIR', BASE_DIR . '/config');
 define('APP_DIR', BASE_DIR . '/app');
 define('PUBLIC_DIR', BASE_DIR . '/public');
+define('ROUTES_DIR', BASE_DIR . '/routes');
 define('STORAGE_DIR', BASE_DIR . '/storage');
 define('APP_CACHE_DIR', STORAGE_DIR . '/app/cache');

@@ -1,17 +1,17 @@
 <?php
-if (isset($errors)) {
-    $emailErrors = $errors['email'] ?? [];
-    $passwordErrors = $errors['password'] ?? [];
+if (isset($formErrors)) {
+    $emailErrors = $formErrors['email'] ?? [];
+    $passwordErrors = $formErrors['password'] ?? [];
 } else {
     $emailErrors = $passwordErrors = [];
 }
 ?>
 
 <?php
-if (isset($message)):
+if (isset($alertMessage)):
     ?>
-    <div class="alert alert-<?=$message['type']?>" role="alert">
-        <?=$message['text']?>
+    <div class="alert alert-<?=$alertMessage['type']?>" role="alert">
+        <?=$alertMessage['text']?>
     </div>
 <?php
 endif

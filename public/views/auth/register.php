@@ -1,9 +1,9 @@
 <?php
-if (isset($errors)) {
-    $emailErrors = $errors['email'] ?? [];
-    $nameErrors = $errors['name'] ?? [];
-    $passwordErrors = $errors['password'] ?? [];
-    $confirmPasswordErrors = $errors['confirmPassword'] ?? [];
+if (isset($formErrors)) {
+    $emailErrors = $formErrors['email'] ?? [];
+    $nameErrors = $formErrors['name'] ?? [];
+    $passwordErrors = $formErrors['password'] ?? [];
+    $confirmPasswordErrors = $formErrors['confirmPassword'] ?? [];
 } else {
     $emailErrors = $nameErrors = $passwordErrors = $confirmPasswordErrors = [];
 }

@@ -6,11 +6,16 @@ namespace App\Controllers\Auth;
 
 use App\Controllers\AppController;
 use App\Models\User;
+use Core\HashCreator;
 use Core\Mailer;
+use Core\SessionMessage;
 use Rakit\Validation\Validation;
 
 class RegisterController extends AppController
 {
+    use SessionMessage;
+    use HashCreator;
+
     protected string $failRedirectTo = '/register';
 
     public function __construct()
@@ -18,33 +23,15 @@ class RegisterController extends AppController
         $this->middleware(['guest']);
     }
 
-    /**
-     * @return Validation
-     */
-    public function validation(): Validation
-    {
-        return $this->request->validation(['post'], [
-            'name' => ['required', 'alpha_spaces', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:User,email'],
-            'password' => ['required', 'min:8', 'max:255'],
-            'confirmPassword' => ['required', 'same:password']
-        ]);
-    }
-
     public function showRegistrationForm()
     {
         $title = 'Register';
-        $session = $this->request->session();
-        $errors = [];
-
-        if ($session->hasFlash('form-errors')) {
-            $errors = $session->getFlash('form-errors');
-        }
+        $formErrors = $this->getFormErrors();
 
         $this->render(
             'auth/register',
             'templates/default',
-            compact('title', 'errors')
+            compact('title', 'formErrors')
         );
     }
 
@@ -55,24 +42,24 @@ class RegisterController extends AppController
         $name = $this->request->post('name');
         $email = $this->request->post('email');
         $password = $this->request->post('password');
-        $token = $this->getVerifyEmailHash();
+        $token = $this->getTokenForUser($email, $password);
 
-        User::create(compact('name', 'email', 'password') + ['remember_token' => $token]);
+        User::register(compact('name', 'email', 'password') + ['remember_token' => $token]);
 
-        $this->sendConfirmMessage($token);
+        $this->sendVerifyMessage($token);
 
-        $this->request->session()->setFlash(
-            'message',
-            [
-                'type' => 'success',
-                'text' => 'Registration completed successfully! Please, follow the link in email message to verify your email'
-            ]
+        $this->setAlertMessage(
+            'success',
+            'Registration completed successfully! Please, follow the link in email message to verify your email'
         );
 
         redirect('/login');
     }
 
-    public function sendConfirmMessage($token)
+    /**
+     * @param string $token
+     */
+    public function sendVerifyMessage(string $token)
     {
         $name = $this->request->post('name');
         $email = $this->request->post('email');
@@ -81,7 +68,7 @@ class RegisterController extends AppController
         $subject = 'Verify your email';
         $body = "Hello $name. To verify your email follow the link <a href='"
             . APP_URL
-            . '/verify?token='
+            . '/verify/'
             . $token
             . "'>Verify Link</a>";
 
@@ -90,11 +77,16 @@ class RegisterController extends AppController
         $mail->send($email);
     }
 
-    public function getVerifyEmailHash()
+    /**
+     * @return Validation
+     */
+    protected function validation(): Validation
     {
-        $email = $this->request->post('email');
-        $password = $this->request->post('password');
-
-        return password_hash($email . $password . time(), PASSWORD_BCRYPT);
+        return $this->request->validation(['post'], [
+            'name' => ['required', 'alpha_spaces', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:User,email'],
+            'password' => ['required', 'min:8', 'max:255'],
+            'confirmPassword' => ['required', 'same:password']
+        ]);
     }
 }

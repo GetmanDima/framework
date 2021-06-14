@@ -11,7 +11,6 @@
   ],
   "require": {
     "nikic/fast-route": "^1.3",
-    "gabordemooij/redbean": "dev-master",
     "rakit/validation": "^1.4",
     "robmorgan/phinx": "^0.12.7",
     "phpmailer/phpmailer": "^6.4",

@@ -36,7 +36,7 @@
                 </li>
 
                 <?php
-                if (!isset($user)):
+                if (!isset($loggedUser)):
                     ?>
                     <li class="nav-item">
                         <a class="nav-link <?= $title === 'Login' ? 'active' : '' ?>" href="/login">Login</a>
@@ -50,11 +50,11 @@
             </ul>
 
             <?php
-            if (isset($user)):
+            if (isset($loggedUser)):
                 ?>
                 <div>
                     <div class="d-inline-block me-3">
-                        <?=$user->name?>
+                        <?=$loggedUser->name?>
                     </div>
                     <form class="d-inline-block form-inline my-2 my-lg-0" action="/logout" method="POST">
                         <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Logout</button>

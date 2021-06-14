@@ -4,39 +4,46 @@
 namespace Core;
 
 
-use \RedBeanPHP\R as R;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 require_once CONFIG_DIR . '/db.php';
 
 /**
- * Class DBConnection
- * @package Core
- *
  * Class for database connection.
  * Currently only mysql connection is present.
  * In the future, it is planned to support other DBMS
+ *
+ * Class DBConnection
+ * @package Core
  */
 class DBConnection
 {
     /**
-     * Setup connection to database.
-     * Wrapper for \Redbean\R::setup.
+     * Setup database connection
      *
-     * @param string|null $host
      * @param string|null $dbname
-     * @param string|null $user
+     * @param string|null $username
      * @param string|null $password
      */
-    public static function setup($host = null, $dbname = null, $user = null, $password = null)
+    public static function setup(
+        string $dbname = null,
+        string $username = null,
+        string $password = null
+    )
     {
-        if ($host !== null && $dbname !== null && $user !== null && $password !== null) {
-            $dsn = "mysql:host=$host;dbname=$dbname";
+        $capsule = new Capsule;
 
-            R::setup($dsn, $user, $password);
-        } else {
-            $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME;
+        $capsule->addConnection([
+            'driver' => 'mysql',
+            'host' => DB_HOST,
+            'port' => DB_PORT,
+            'database' => $dbname ? $dbname : DB_NAME,
+            'username' => $username ? $username : DB_USER,
+            'password' => $password ? $password : DB_PASSWORD,
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+        ]);
 
-            R::setup($dsn, DB_USER, DB_PASSWORD);
-        }
+        $capsule->bootEloquent();
     }
 }

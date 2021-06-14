@@ -11,14 +11,19 @@ class UserController extends AppController
     public function index()
     {
         $title = 'Users';
+        $loggedUser = $this->getLoggedUser();
         $cache = $this->request->cache();
         $users = $cache->get(1, 'UserController', 'index');
 
         if ($users === null) {
-            $users = User::findAll();
+            $users = User::all();
             $cache->set(1, 'UserController', 'index', $users);
         }
 
-        $this->render('users', 'templates/default', compact('title', 'users'));
+        $this->render(
+            'users',
+            'templates/default',
+            compact('title', 'loggedUser', 'users')
+        );
     }
 }

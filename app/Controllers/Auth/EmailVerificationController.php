@@ -6,23 +6,21 @@ namespace App\Controllers\Auth;
 
 use App\Controllers\AppController;
 use App\Models\User;
+use Core\SessionMessage;
 
 class EmailVerificationController extends AppController
 {
-    public function verify()
+    use SessionMessage;
+
+    public function verify($token)
     {
-        $token = $this->request->get('token');
+        $user = User::where('remember_token', $token)->first();
 
-        $user = User::findOne(['remember_token' => $token]);
-
-        if ($user && $user->email_verified_at === null) {
+        if ($user !== null && $user->email_verified_at === null) {
             $user->email_verified_at = date('Y-m-d H:i:s');
-            $user->store();
+            $user->save();
 
-            $this->request->session()->setFlash(
-                'message',
-                ['type' => 'success', 'text' => 'Your email was verified']
-            );
+            $this->setAlertMessage('success', 'Your email was verified');
         } else {
             echo 'error 404';
         }

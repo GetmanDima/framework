@@ -4,42 +4,41 @@
 namespace App\Models;
 
 
-use Core\Model;
-use RedBeanPHP\R;
+use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class User
+ * @package App\Models
+ */
 class User extends Model
 {
-    static $table = 'users';
+    protected $fillable = ['name', 'email', 'password', 'remember_token'];
 
     /**
-     * @throws \RedBeanPHP\RedException\SQL
+     * @param array $attributes
+     * @return Model
      */
-    public static function create(array $attributes = []): Model
+    public static function register(array $attributes = []): Model
     {
         $attributesWithPasswordHash = $attributes;
         $attributesWithPasswordHash['password'] = password_hash($attributes['password'], PASSWORD_BCRYPT);
 
-        $user = static::dispense($attributesWithPasswordHash);
-        $user->store();
-
-        return $user;
+        return static::create($attributesWithPasswordHash);
     }
 
     /**
      * @param $email
      * @param $password
-     * @return \RedBeanPHP\OODBBean|null
+     * @return Model|null
      */
-    public static function findByEmailAndPassword($email, $password): ?\RedBeanPHP\OODBBean
+    public static function login($email, $password): ?Model
     {
-        $user = R::findOne(static::$table, "email = ?", [$email]);
+        $user = static::where('email', $email)->first();
 
-        if ($user === null) {
-            return null;
-        }
-
-        if (password_verify($password, $user->password)) {
-            return $user;
+        if ($user !== null) {
+            if (password_verify($password, $user->password)) {
+                return $user;
+            }
         }
 
         return null;

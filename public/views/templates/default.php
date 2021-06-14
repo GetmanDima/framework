@@ -68,9 +68,7 @@
 </nav>
 
 <main class="container mt-4">
-    <?php
-    includeView($view, $vars);
-    ?>
+    <?=$view?>
 </main>
 
 <script src="/js/bundle.js"></script>

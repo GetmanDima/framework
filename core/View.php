@@ -6,7 +6,7 @@ namespace Core;
 
 class View {
 
-    private static $viewsDir = PUBLIC_DIR . '/views';
+    private static string $viewsDir = PUBLIC_DIR . '/views';
 
 
     /**
@@ -16,23 +16,28 @@ class View {
      * @param string $template
      * @param array $vars
      */
-    public static function render($view, $template = '', $vars = [])
+    public static function render(string $view, string $template = '', array $vars = [])
     {
         extract($vars);
 
-        if ($template === '') {
-            if (file_exists(self::$viewsDir . "/{$view}.php")) {
-                include_once self::$viewsDir . "/{$view}.php";
-            }
-        } else if (file_exists(self::$viewsDir . "/{$template}.php")) {
-            include_once self::$viewsDir . "/{$template}.php";
+        $viewPath = self::$viewsDir . "/{$view}.php";
+        $templatePath = self::$viewsDir . "/{$template}.php";
+
+        if ($template === '' && file_exists($viewPath)) {
+            include_once $viewPath;
+        } else if (file_exists($templatePath)) {
+            ob_start();
+            include_once $viewPath;
+            $view = ob_get_clean();
+
+            include_once $templatePath;
         }
     }
 
     /**
      * @param string $dir
      */
-    public static function setViewsDir($dir)
+    public static function setViewsDir(string $dir)
     {
         self::$viewsDir = $dir;
     }

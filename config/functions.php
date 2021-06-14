@@ -24,18 +24,22 @@ function setSessionLifeTime()
     ini_set('session.gc_maxlifetime', SESSION_LIFETIME);
 }
 
-function debug($var)
+function debug(...$vars)
 {
-    echo '<pre>';
-    var_dump($var);
-    echo '</pre>';
+    foreach ($vars as $var) {
+        echo '<pre>';
+        var_dump($var);
+        echo '</pre>';
+    }
 }
 
-function dd($var)
+function dd(...$vars)
 {
-    echo '<pre>';
-    var_dump($var);
-    echo '</pre>';
+    foreach ($vars as $var) {
+        echo '<pre>';
+        var_dump($var);
+        echo '</pre>';
+    }
 
     die();
 }

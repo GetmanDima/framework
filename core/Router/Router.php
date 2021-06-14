@@ -135,20 +135,18 @@ class Router
 
     /**
      * Handle (run controller action or error handler) the dispatched route.
+     * @throws \Exception
      */
     private function handleDispatchedRoute()
     {
         switch ($this->dispatchedRoute[0]) {
             case Dispatcher::NOT_FOUND:
                 // ... 404 Not Found
-                echo '404';
-                break;
+                throw new \Exception('', 404);
             case Dispatcher::METHOD_NOT_ALLOWED:
                 $allowedMethods = $this->dispatchedRoute[1];
-                // ... 405 Method Not Allowed
-                echo '405 <br>';
-                var_dump($allowedMethods);
-                break;
+                // ... 404 Method Not Allowed
+                throw new \Exception(implode(' ', $allowedMethods), 404);
             case Dispatcher::FOUND:
                 $routerData = $this->getDispatchedRouteData();
 

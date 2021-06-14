@@ -14,6 +14,7 @@ class EmailVerificationController extends AppController
 
     /**
      * @param string $token
+     * @throws \Exception
      */
     public function verify(string $token)
     {
@@ -25,7 +26,7 @@ class EmailVerificationController extends AppController
 
             $this->setAlertMessage('success', 'Your email was verified');
         } else {
-            echo 'error 404';
+            throw new \Exception('No user for a token: ' . $token, 404);
         }
 
         if ($this->isUserLogged()) {

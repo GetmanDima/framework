@@ -6,7 +6,6 @@ namespace Core;
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 class Mailer
@@ -16,6 +15,9 @@ class Mailer
      */
     protected PHPMailer $mail;
 
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
         $this->mail = new PHPMailer(true);
@@ -41,6 +43,7 @@ class Mailer
     /**
      * @param string $recipientEmail
      * @param string $recipientName
+     * @throws \Exception
      */
     public function send(string $recipientEmail, string $recipientName = '')
     {
@@ -55,10 +58,13 @@ class Mailer
 
             $mail->send();
         } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            throw new \Exception($mail->ErrorInfo, 500);
         }
     }
 
+    /**
+     * @throws Exception
+     */
     private function setConfigData()
     {
         $mail = $this->mail;

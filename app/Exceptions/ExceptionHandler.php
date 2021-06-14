@@ -4,7 +4,6 @@
 namespace App\Exceptions;
 
 
-class Handler
+class ExceptionHandler
 {
-
 }

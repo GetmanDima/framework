@@ -13,8 +13,9 @@ class Cache
      * @param string $controller
      * @param string $action
      * @param mixed $data
+     * @param int $lifeTime
      */
-    public function set(int $id, string $controller, string $action, $data)
+    public function set(int $id, string $controller, string $action, $data, int $lifeTime = 3600)
     {
         if (!is_dir(APP_CACHE_DIR . "/$controller/$action")) {
             mkdir(APP_CACHE_DIR . "/$controller/$action", 0777, true);
@@ -24,7 +25,7 @@ class Cache
         $file = fopen($filePath, 'wb');
 
         if (is_writable($filePath)) {
-            fwrite($file, serialize($data));
+            fwrite($file, serialize(compact('data', 'lifeTime')));
         } else {
             echo 'write error';
         }
@@ -44,10 +45,19 @@ class Cache
 
         if (file_exists($filePath) && filesize($filePath) > 0) {
             $file = fopen($filePath, 'rb');
-            $data = fread($file, filesize($filePath));
+            $dataWithLifeTime = unserialize(fread($file, filesize($filePath)));
             fclose($file);
 
-            return unserialize($data);
+            $lifeTime = $dataWithLifeTime['lifeTime'];
+            $data = $dataWithLifeTime['data'];
+
+            if (time() - $lifeTime > filemtime($filePath)) {
+                $this->remove($id, $controller, $action);
+
+                return null;
+            }
+
+            return $data;
         }
 
         return null;

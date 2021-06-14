@@ -13,7 +13,7 @@ class MiddlewareHandler
      *
      * @var string
      */
-    private string $path = APP_DIR . '/middleware.php';
+    private string $path = CONFIG_DIR . '/middleware.php';
     /**
      * @var Request
      */

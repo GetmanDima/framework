@@ -22,6 +22,8 @@ trait HashCreator
      */
     private function getTokenForUser(string $email, string $password)
     {
-        return password_hash($email . $password . time(), PASSWORD_BCRYPT);
+        $token = password_hash($email . $password . time(), PASSWORD_BCRYPT);
+
+        return str_replace(['.', '/'], '', $token);
     }
 }

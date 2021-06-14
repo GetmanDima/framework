@@ -92,7 +92,7 @@ abstract class Controller
      * @param string $template
      * @param array $vars
      */
-    protected function render($view = '', $template = '', $vars = [])
+    protected function render(string $view = '', string $template = '', array $vars = [])
     {
         if ($view === '') {
             View::render($this->view, $this->template, $this->vars);
@@ -108,7 +108,7 @@ abstract class Controller
      *
      * @return Validation
      */
-    protected function validation()
+    protected function validation(): Validation
     {
         return $this->request->validation([], []);
     }

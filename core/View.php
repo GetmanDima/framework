@@ -20,8 +20,8 @@ class View {
     {
         extract($vars);
 
-        $viewPath = self::$viewsDir . "/{$view}.php";
-        $templatePath = self::$viewsDir . "/{$template}.php";
+        $viewPath = self::$viewsDir . "/$view.php";
+        $templatePath = self::$viewsDir . "/$template.php";
 
         if ($template === '' && file_exists($viewPath)) {
             include_once $viewPath;

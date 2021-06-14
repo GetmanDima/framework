@@ -30,15 +30,15 @@ class Request
     /**
      * @var array
      */
-    private array $post = [];
+    private array $post;
     /**
      * @var array
      */
-    private array $get = [];
+    private array $get;
     /**
      * @var array
      */
-    private array $files = [];
+    private array $files;
     /**
      * @var Cookie
      */
@@ -78,6 +78,9 @@ class Request
         return self::$instance;
     }
 
+    /**
+     * @throws \Rakit\Validation\RuleQuashException
+     */
     public function __construct()
     {
         $this->httpMethod = $_SERVER['REQUEST_METHOD'];
@@ -93,6 +96,9 @@ class Request
         $this->session->start();
     }
 
+    /**
+     * @throws \Rakit\Validation\RuleQuashException
+     */
     public function initValidator()
     {
         $validator = new Validator();
@@ -143,7 +149,7 @@ class Request
      * @param string $name
      * @return mixed
      */
-    public function get($name)
+    public function get(string $name)
     {
         return $this->get[$name];
     }
@@ -152,7 +158,7 @@ class Request
      * @param string $name
      * @return mixed
      */
-    public function post($name)
+    public function post(string $name)
     {
         return $this->post[$name];
     }
@@ -161,7 +167,7 @@ class Request
      * @param string $name
      * @return mixed
      */
-    public function files($name)
+    public function files(string $name)
     {
         return $this->files[$name];
     }
@@ -211,7 +217,7 @@ class Request
      * @param array $rules
      * @return Validation
      */
-    public function validation($inputNames, $rules): Validation
+    public function validation(array $inputNames, array $rules): Validation
     {
         $inputs = $this->getInputsByNames($inputNames);
 
@@ -238,7 +244,7 @@ class Request
      * @param array $inputNames
      * @return array
      */
-    private function getInputsByNames($inputNames): array
+    private function getInputsByNames(array $inputNames): array
     {
         $all = $this->all();
         $inputs = [];

@@ -37,9 +37,9 @@ class DBConnection
             'driver' => 'mysql',
             'host' => DB_HOST,
             'port' => DB_PORT,
-            'database' => $dbname ? $dbname : DB_NAME,
-            'username' => $username ? $username : DB_USER,
-            'password' => $password ? $password : DB_PASSWORD,
+            'database' => $dbname ?: DB_NAME,
+            'username' => $username ?: DB_USER,
+            'password' => $password ?: DB_PASSWORD,
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
         ]);

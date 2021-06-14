@@ -41,9 +41,9 @@ class Session
     {
         if ($this->has($name)) {
             return $_SESSION[$name];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**

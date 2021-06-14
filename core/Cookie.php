@@ -35,9 +35,9 @@ class Cookie
     {
         if ($this->has($name)) {
             return $_COOKIE[$name];
-        } else {
-            throw new \Exception("Undefined cookie variable name: $name");
         }
+
+        return null;
     }
 
     /**

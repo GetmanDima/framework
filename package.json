@@ -1,14 +1,8 @@
 {
-  "name": "framework",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "build": "./node_modules/.bin/webpack",
     "watch": "webpack --watch"
   },
-  "author": "",
-  "license": "",
   "devDependencies": {
     "css-loader": "^5.2.6",
     "mini-css-extract-plugin": "^1.6.0",

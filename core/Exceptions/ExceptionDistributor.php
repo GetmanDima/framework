@@ -73,7 +73,9 @@ class ExceptionDistributor
      */
     public function handleError(int $errno, string $errstr, string $errfile, int $errline)
     {;
-        ob_end_clean();
+        while (ob_get_level() > 0) {
+            ob_end_clean();
+        }
 
         $this->currentHandler = 'Core\\Exceptions\\ErrorHandler';
         $this->currentAction = DEBUG_MODE ? 'development' : 'production';
@@ -87,7 +89,9 @@ class ExceptionDistributor
      */
     public function handleException($exception)
     {
-        ob_end_clean();
+        while (ob_get_level() > 0) {
+            ob_end_clean();
+        }
 
         $this->exception = $exception;
 

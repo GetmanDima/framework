@@ -17,8 +17,8 @@ return [
             'name' => DB_NAME,
             'user' => DB_USER,
             'pass' => DB_PASSWORD,
-            'port' => 3306,
-            'charset' => DB_CHARSET,
+            'port' => DB_PORT,
+            'charset' => 'utf8',
             'table_prefix' => ''
         ],
 
@@ -28,8 +28,8 @@ return [
             'name' => DB_NAME,
             'user' => DB_USER,
             'pass' => DB_PASSWORD,
-            'port' => 3306,
-            'charset' => DB_CHARSET,
+            'port' => DB_PORT,
+            'charset' => 'utf8',
             'table_prefix' => ''
         ]
     ],

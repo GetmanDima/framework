@@ -13,6 +13,9 @@ class UniqueRule extends Rule
 
     protected $fillableParams = ['model', 'field'];
 
+    /**
+     * @throws \Rakit\Validation\MissingRequiredParameterException
+     */
     public function check($value): bool
     {
         // make sure required parameters exists

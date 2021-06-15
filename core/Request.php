@@ -12,7 +12,7 @@ class Request
     /**
      * @var string
      */
-    const VALIDATION_RULES_PATH = CONFIG_DIR . '/validationRules.php';
+    const VALIDATION_RULES_PATH = CONFIG_DIR . '/validation_rules.php';
     /**
      * The Singleton's instance
      *

@@ -4,8 +4,6 @@
 /vendor/
 # Node modules
 /node_modules/
-# storage
-/storage/
 # public
 /public/css/
 /public/js/
